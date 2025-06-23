@@ -20,28 +20,27 @@
     <section>
       <h2>Current Weather:</h2>
       <p>Temperature: <span id="temp">Loading...</span></p>
-      <p>Humidity: <span id="Humidity">Loading...</span></p>
+      <p>Humidity: <span id="hum">Loading...</span></p>
     </section>
   </main>
 
   <script>
-    fetch("https://your-backend.com/temperature")
-        .then(response => response.json())
-        .then(data => {
-        if (data) {
-            document.getElementById("temp").textContent = `${data.celsius} °C`;
-            document.getElementById("humidity").textContent = `${data.humidity} %`;
-        } else {
-            document.getElementById("temp").textContent = "No data";
-            document.getElementById("humidity").textContent = "No data";
-        }
-        })
-        .catch(err => {
-        document.getElementById("temp").textContent = "Error";
-        document.getElementById("humidity").textContent = "Error";
-        console.error("Fetch failed:", err);
-        });
-    </script>
+    async function fetch_sensor_data() {
+      try {
+        const response = await fetch("http://raspi.local:8080");
+        const data = await response.json();
+
+        document.getElementById("temp").textContent = data.temperature + " °C";
+        document.getElementById("hum").textContent = data.humidity + " %";
+      } catch (error) {
+        console.error("Failed to fetch sensor data:", error);
+      }
+    }
+
+    fetch_sensor_data();
+
+    setInterval(fetch_sensor_data, 30000);
+  </script>
 </body>
 
 </html>
