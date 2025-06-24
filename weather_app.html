@@ -30,7 +30,7 @@
         const response = await fetch("https://weather.colsenm.com/");
         const data = await response.json();
 
-        document.getElementById("temp").textContent = data.temperature + " °C";
+        document.getElementById("temp").textContent = data.temperature + " °F";
         document.getElementById("hum").textContent = data.humidity + " %";
       } catch (error) {
         console.error("Failed to fetch sensor data:", error);
